@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import argparse
-from gendiff.moduls.gendiff import generate_diff
+from gendiff import generate_diff
 
 
 def main():
