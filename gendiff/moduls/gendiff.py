@@ -1,6 +1,9 @@
 import json
+
+
 def reverse(string):
     return string[::-1]
+
 
 def generate_diff(path_file1, path_file2):
     file1 = json.load(open(path_file1))
