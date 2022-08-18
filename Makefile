@@ -16,4 +16,7 @@ lint:
 pytest:
 	poetry run pytest
 
+pytest-cov
+	poetry run pytest --cov=gendiff/ --cov-report xml
+
 
