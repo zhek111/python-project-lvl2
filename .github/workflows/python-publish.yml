@@ -1,4 +1,4 @@
-pytest-covname: test-coverage-reports
+name: Python package
 
 on:
   push:
