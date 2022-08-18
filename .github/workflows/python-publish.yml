@@ -32,8 +32,8 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build
-    - name: Run flake8
-      run: flake8 .
+    - name: Run Lint
+      run: lint .
     - name: Run Pytest
       run: pytest .
     - name: Publish package
