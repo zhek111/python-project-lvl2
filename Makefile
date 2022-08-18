@@ -8,15 +8,14 @@ publish:
 	poetry publish --dry-run
 
 package-install:
-	python3 -m pip install --user --force-reinstall  dist/*.whl
-	
-lint:
-	poetry run flake8 gendiff
+	python3 -m pip install --user dist/*.whl --force-reinstall
 
-pytest:
+lint:
+	poetry run flake8 .
+
+test:
 	poetry run pytest
 
-pytest-cov:
-	poetry run pytest --cov=gendiff/ --cov-report xml
-
+test-cov:
+	poetry run pytest --cov=coverage_demo tests/ --cov-report xml
 
