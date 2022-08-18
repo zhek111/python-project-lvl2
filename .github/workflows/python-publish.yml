@@ -19,9 +19,11 @@ jobs:
       - name: Install poetry
         run: |
           pip install poetry
+
       - name: Install requirements
         run: |
           make install
+
       - name: Lint with flake8
         run: |
           make lint
