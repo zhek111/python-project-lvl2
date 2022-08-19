@@ -1,4 +1,5 @@
 import json
+import yaml
 
 
 def reverse(string):
@@ -6,8 +7,18 @@ def reverse(string):
 
 
 def generate_diff(path_file1, path_file2):
-    file1 = json.load(open(path_file1))
-    file2 = json.load(open(path_file2))
+    if path_file1.endswith('.yaml') or path_file1.endswith('.yml'):
+        file1 = yaml.safe_load(open(path_file1))
+    if path_file1.endswith('.json'):
+        file1 = json.load(open(path_file1))
+    if path_file2.endswith('.yaml') or path_file2.endswith('.yml'):
+        file2 = json.load(open(path_file2))
+    if path_file2.endswith('.json'):
+        file2 = json.load(open(path_file2))
+    return change_to_txt(file1, file2)
+
+
+def change_to_txt(file1, file2):
     sorted_keys = sorted(list(set(file1.keys()) | set(file2.keys())))
     result = '{\n'
     for i in sorted_keys:
@@ -23,4 +34,5 @@ def generate_diff(path_file1, path_file2):
     result = result.replace('True', 'true').replace('False', 'false')
     return result
 
-# print(generate_diff('gendiff/files/file1.json', 'gendiff/files/file2.json'))
+# print(generate_diff('tests/fixtures/empty_file.json',
+# 'tests/fixtures/empty_file.json'))
