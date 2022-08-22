@@ -20,29 +20,28 @@ def get_diff(file1, file2):
     for i in sorted_keys:
         if not type(file1.get(i)) == type(file2.get(i)) == dict:
             if i in file1 and i in file2 and file1[i] == file2[i]:
-                diff[f'    {i}'] = file1[i]
+                diff[f'   {i}'] = file1[i]
             if i in file1 and i in file2 and file1[i] != file2[i]:
-                diff[f'  - {i}'] = file1[i]
-                diff[f'  + {i}'] = file2[i]
+                diff[f' - {i}'] = file1[i]
+                diff[f' + {i}'] = file2[i]
             if i in file1 and i not in file2:
-                diff[f'  - {i}'] = file1[i]
+                diff[f' - {i}'] = file1[i]
             if i not in file1 and i in file2:
-                diff[f'  + {i}'] = file2[i]
+                diff[f' + {i}'] = file2[i]
         if type(file1.get(i)) == type(file2.get(i)) == dict:
             children1 = file1.get(i)
             children2 = file2[i]
             new_value = list(map(get_diff, (children1,), (children2,)))[0]
-            diff[f'    {i}'] = new_value
+            diff[f'   {i}'] = new_value
         if type(file2.get(i)) == dict != type(file1.get(i)):
             children2 = file2.get(i)
             children1 = file2.get(i)
             new_value = list(map(get_diff, (children1,), (children2,)))[0]
-            diff[f'  + {i}'] = new_value
         if type(file1.get(i)) == dict != type(file2.get(i)):
             children2 = file1.get(i)
             children1 = file1.get(i)
             new_value = list(map(get_diff, (children1,), (children2,)))[0]
-            diff[f'  - {i}'] = new_value
+            diff[f' - {i}'] = new_value
     return diff
 
 
@@ -56,7 +55,7 @@ def stylish(diff, depth=0):
             new_value = stylish(children, depth + 4)
             text += f'{" " * depth}{i}: {new_value}\n'
     text += f'{" " * (depth)}{"}"}'
-    text = text.replace('True', 'true').replace('False', 'false').replace('None', 'null')
+
     return text
 
 
@@ -65,6 +64,7 @@ def generate_diff(path_file1, path_file2):
     diff = get_diff(file1, file2)
     formater = stylish(diff)
     return formater
+
 
 # file1 = {
 #     'common': {

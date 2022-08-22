@@ -21,3 +21,8 @@ def test_generare_diff_mix():
 def test_generare_diff_empty():
 
     assert generate_diff('tests/fixtures/empty_file.json', 'tests/fixtures/empty_file.json') == '{\n}'
+
+def test_generare_diff_tree():
+    with open('tests/fixtures/correct_result_tree.txt', 'r') as file:
+        result_data = file.read()
+    assert generate_diff('tests/fixtures/file1_tree.json', 'tests/fixtures/file2_tree.json') == result_data
