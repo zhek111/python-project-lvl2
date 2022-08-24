@@ -35,6 +35,7 @@ def plain(diff, depth=[]):
                 'ch+.'):
                 text = text.replace("'True'", "true").replace("'False'",
                                                               "false").replace(
-                    "'None'", "null").replace("  ", " '' ").replace("'0'", "0").rstrip()
+                    "'None'", "null").replace("  ", " '' ").replace("'0'",
+                                                                    "0").rstrip()
                 text += f"{new_value}"
     return text
