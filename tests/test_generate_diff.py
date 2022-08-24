@@ -50,7 +50,7 @@ def test_generare_diff_tree_plain():
         result_data = file.read()
     assert generate_diff('tests/fixtures/file1_tree.yaml',
                          'tests/fixtures/file2_tree.yaml',
-                         formater=plain) == result_data
+                         formater='plain') == result_data
 
 
 def test_generare_diff_tree_json():
@@ -58,4 +58,4 @@ def test_generare_diff_tree_json():
         result_data = file.read()
     assert generate_diff('tests/fixtures/file1_tree.json',
                          'tests/fixtures/file2_tree.json',
-                         formater=get_json) == result_data
+                         formater='json') == result_data
