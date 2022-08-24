@@ -32,10 +32,10 @@ def plain(diff, depth=[]):
                         f"complex value]\n"
             if not i.startswith('del.') and not i.startswith(
                     'add.') and not i.startswith('ch-.') and not i.startswith(
-                'ch+.'):
+                    'ch+.'):
+                text += f"{new_value}"
                 text = text.replace("'True'", "true").replace("'False'",
                                                               "false").replace(
                     "'None'", "null").replace("  ", " '' ").replace("'0'",
                                                                     "0")
-                text += f"{new_value}"
     return text
