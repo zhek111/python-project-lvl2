@@ -26,14 +26,15 @@ def plain(diff, depth=[]):
                         f"updated. From [complex val" \
                         f"ue] to '{diff.get(i.replace('ch-.', 'ch+.'))}'\n"
             if i.startswith('ch+.'):
-                text += f"Property '{'.'.join(depth + [i[4:]])}' was update. " \
+                text += f"Property '{'.'.join(depth + [i[4:]])}' was " \
+                        f"updated. " \
                         f"From '{diff.get(i.replace('ch+.', 'ch-.'))}' to [" \
                         f"complex value]\n"
             if not i.startswith('del.') and not i.startswith(
                     'add.') and not i.startswith('ch-.') and not i.startswith(
-                    'ch+.'):
+                'ch+.'):
                 text = text.replace("'True'", "true").replace("'False'",
                                                               "false").replace(
-                    "'None'", "null").replace("  ", " '' ")
+                    "'None'", "null").replace("  ", " '' ").replace("'0'", "0").rstrip()
                 text += f"{new_value}"
     return text
