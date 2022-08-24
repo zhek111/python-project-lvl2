@@ -1,4 +1,5 @@
 from gendiff import generate_diff
+from gendiff.moduls.formaters.plain import plain
 
 
 def test_generare_diff_json():
@@ -33,3 +34,8 @@ def test_generare_diff_tree_yaml():
     with open('tests/fixtures/correct_result_tree.rtf', 'r') as file:
         result_data = file.read()
     assert generate_diff('tests/fixtures/file1_tree.yaml', 'tests/fixtures/file2_tree.yaml') == result_data
+
+def test_generare_diff_tree_plain():
+    with open('tests/fixtures/correct_result_tree_plain.rtf', 'r') as file:
+        result_data = file.read()
+    assert generate_diff('tests/fixtures/file1_tree.yaml', 'tests/fixtures/file2_tree.yaml', formater=plain) == result_data
