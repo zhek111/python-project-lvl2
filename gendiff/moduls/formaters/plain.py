@@ -38,4 +38,5 @@ def plain(diff, depth=[]):
                                                               "false").replace(
                     "'None'", "null").replace("  ", " '' ").replace("'0'",
                                                                     "0")
+                text += ' '
     return text
