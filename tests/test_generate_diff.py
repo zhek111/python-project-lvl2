@@ -1,8 +1,4 @@
-import json
-
 from gendiff import generate_diff
-from gendiff.moduls.formaters.plain import plain
-from gendiff.moduls.formaters.to_json import get_json
 
 
 def test_generare_diff_json():
@@ -53,7 +49,7 @@ def test_generare_diff_tree_plain():
                          formater='plain') == result_data
 
 
-def test_generare_diff_tree_json():
+def test_generare_diff_tree_get_json():
     with open('tests/fixtures/correct_result_tree_json.rtf', 'r') as file:
         result_data = file.read()
     assert generate_diff('tests/fixtures/file1_tree.json',
