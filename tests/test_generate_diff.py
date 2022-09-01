@@ -3,12 +3,12 @@ import pytest
 
 
 @pytest.mark.parametrize("test_input1,test_input2, expected", [(
-        'tests/fixtures/file1.json',
-        'tests/fixtures/file2.json',
-        'tests/fixtures/correct_result.txt'), (
-        'tests/fixtures/file1.json',
-        'tests/fixtures/file2.json',
-        'tests/fixtures/correct_result.txt')])
+    'tests/fixtures/file1.json',
+    'tests/fixtures/file2.json',
+    'tests/fixtures/correct_result.txt'), (
+    'tests/fixtures/file1.json',
+    'tests/fixtures/file2.json',
+    'tests/fixtures/correct_result.txt')])
 def test_generare_diff_json(test_input1, test_input2, expected):
     with open(expected, 'r') as file:
         result_data = file.read()
