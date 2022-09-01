@@ -1,5 +1,3 @@
-import pytest as pytest
-
 from gendiff import generate_diff
 import pytest
 
@@ -22,6 +20,7 @@ def test_generare_diff_json1():
         result_data = file.read()
     assert generate_diff('tests/fixtures/file1.json',
                          'tests/fixtures/file2.json') == result_data
+
 
 def test_generare_diff_yaml():
     with open('tests/fixtures/correct_result.txt', 'r') as file:
