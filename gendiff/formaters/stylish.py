@@ -1,5 +1,7 @@
 INDENT = 4
 DEFAUL = 0
+
+
 def stylish(diff, depth=DEFAUL):
     text = '{\n'
     for i in diff:

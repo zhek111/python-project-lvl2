@@ -1,5 +1,6 @@
 DEFAULF = []
 
+
 def plain(diff, depth=DEFAULF):
     text = ''
     for i in diff:
