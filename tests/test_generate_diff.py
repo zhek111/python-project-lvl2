@@ -2,14 +2,36 @@ from gendiff import generate_diff
 import pytest
 
 
-@pytest.mark.parametrize("test_input1,test_input2, expected", [(
-    'tests/fixtures/file1.json',
-    'tests/fixtures/file2.json',
-    'tests/fixtures/correct_result.txt'), (
-    'tests/fixtures/file1.json',
-    'tests/fixtures/file2.json',
-    'tests/fixtures/correct_result.txt')])
-def test_generare_diff_json(test_input1, test_input2, expected):
+@pytest.mark.parametrize(
+    "test_input1,test_input2, expected",
+    [
+        pytest.param(
+            'tests/fixtures/file1.json', 'tests/fixtures/file2.json',
+            'tests/fixtures/correct_result.txt', id="flat_json_file"
+        ),
+        pytest.param(
+            'tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml',
+            'tests/fixtures/correct_result.txt', id="flat_yaml_file"
+        ),
+        pytest.param(
+            'tests/fixtures/file1.yaml', 'tests/fixtures/file2.json',
+            'tests/fixtures/correct_result.txt', id="flat_mix_file"
+        ),
+        pytest.param(
+            'tests/fixtures/empty_file.json', 'tests/fixtures/empty_file.json',
+            'tests/fixtures/correct_result_empty.txt', id="empty_file"
+        ),
+        pytest.param(
+            'tests/fixtures/file1_tree.json', 'tests/fixtures/file2_tree.json',
+            'tests/fixtures/correct_result_tree.txt', id="tree_json_file"
+        ),
+        pytest.param(
+            'tests/fixtures/file1_tree.yaml', 'tests/fixtures/file2_tree.yaml',
+            'tests/fixtures/correct_result_tree.txt', id="tree_yaml_file"
+        ),
+    ],
+)
+def test_generare_diff(test_input1, test_input2, expected):
     with open(expected, 'r') as file:
         result_data = file.read()
     assert generate_diff(test_input1, test_input2) == result_data
@@ -37,8 +59,10 @@ def test_generare_diff_mix():
 
 
 def test_generare_diff_empty():
+    with open('tests/fixtures/correct_result_empty.txt', 'r') as file:
+        result_data = file.read()
     assert generate_diff('tests/fixtures/empty_file.json',
-                         'tests/fixtures/empty_file.json') == '{\n}'
+                         'tests/fixtures/empty_file.json') == result_data
 
 
 def test_generare_diff_tree_json():
