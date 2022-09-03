@@ -1,19 +1,20 @@
-DEFAULF = []
+DEFAULT_DEPTH = list()
 
 
-def plain(diff, depth=DEFAULF):
-    text = ''
+def plain(diff, depth=DEFAULT_DEPTH):
+    text = str()
     for i in diff:
-        if i['operation'] == 'addition':
+        property = '.'.join(depth + [i['key']])
+        if i['operation'] == 'add':
             if type(i['new']) != list:
-                text += f"Property '{'.'.join(depth + [i['key']])}' was " \
+                text += f"Property '{property}' was " \
                         f"added with value: '{i['new']}'\n"
             if type(i['new']) == list:
-                text += f"Property '{'.'.join(depth + [i['key']])}' was " \
+                text += f"Property '{property}' was " \
                         f"added with value: [complex value]\n"
         if i['operation'] == 'delete':
-            text += f"Property '{'.'.join(depth + [i['key']])}' was removed\n"
-        if i['operation'] == 'nothing' and type(i['value']) == list:
+            text += f"Property '{property}' was removed\n"
+        if i['operation'] == 'none' and type(i['value']) == list:
             children = i['value']
             new_value = plain(children, depth=depth + [i['key']])
             text += f"{new_value}\n"
@@ -26,7 +27,7 @@ def plain(diff, depth=DEFAULF):
                 old_value = f"'{i['old']}'"
             if type(i['old']) == list:
                 old_value = '[complex value]'
-            text += f"Property '{'.'.join(depth + [i['key']])}' was update" \
+            text += f"Property '{property}' was update" \
                     f"d. From {old_value} to {new_value}\n"
     text = text.replace("'True'", "true").replace("'False'", "false") \
         .replace("'None'", "null").replace("  ", " '' ").replace("'0'", "0")
