@@ -33,7 +33,7 @@ def stylish(diff, depth=DEFAULT_DEPTH):
                 children = i['new']
                 new_value = stylish(children, depth + DEFAULT_INDENT)
                 text += f'{" " * depth}  + {i["key"]}: {new_value}\n'
-    text += f'{" " * (depth)}{"}"}'
+    text += f'{" " * depth}{"}"}'
     text = text.replace('True', 'true').replace('False',
                                                 'false').replace('None',
                                                                  'null')
