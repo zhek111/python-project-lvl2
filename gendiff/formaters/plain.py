@@ -1,34 +1,32 @@
 DEFAULT_DEPTH = list()
 
 
-def plain(diff, depth=DEFAULT_DEPTH):
+def determine_value(i, value):
+    if isinstance(i[value], list):
+        i[value] = "[complex value]"
+
+
+def plain(diff: list[dict], depth=None) -> str:
+    if depth is None:
+        depth = DEFAULT_DEPTH
     text = str()
     for i in diff:
         property = '.'.join(depth + [i['key']])
         if i['operation'] == 'add':
-            if type(i['new']) != list:
-                text += f"Property '{property}' was " \
-                        f"added with value: '{i['new']}'\n"
-            if type(i['new']) == list:
-                text += f"Property '{property}' was " \
-                        f"added with value: [complex value]\n"
+            determine_value(i, 'new')
+            text += f"Property '{property}' " \
+                    f"was added with value: '{i['new']}'\n"
         if i['operation'] == 'delete':
             text += f"Property '{property}' was removed\n"
         if i['operation'] == 'none' and type(i['value']) == list:
-            children = i['value']
-            new_value = plain(children, depth=depth + [i['key']])
+            new_value = plain(i['value'], depth + [i['key']])
             text += f"{new_value}\n"
         if i['operation'] == 'update':
-            if type(i['new']) != list:
-                new_value = f"'{i['new']}'"
-            if type(i['new']) == list:
-                new_value = '[complex value]'
-            if type(i['old']) != list:
-                old_value = f"'{i['old']}'"
-            if type(i['old']) == list:
-                old_value = '[complex value]'
-            text += f"Property '{property}' was update" \
-                    f"d. From {old_value} to {new_value}\n"
+            determine_value(i, 'new')
+            determine_value(i, 'old')
+            text += f"Property '{property}' was updated. " \
+                    f"From '{i['old']}' to '{i['new']}'\n"
     text = text.replace("'True'", "true").replace("'False'", "false") \
-        .replace("'None'", "null").replace("  ", " '' ").replace("'0'", "0")
+        .replace("'None'", "null").replace("  ", " '' ").replace(
+        "'0'", "0").replace("'[complex value]'", "[complex value]")
     return text[:-1]
