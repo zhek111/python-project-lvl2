@@ -2,28 +2,40 @@ DEFAULT_INDENT = 4
 DEFAULT_DEPTH = 0
 
 
-def line_forming(i: dict, value: str, depth: int, sign: str) -> str:
-    if isinstance(i[value], list):
-        i[value] = stylish(i[value], depth + DEFAULT_INDENT)
+def get_value(dict_values, depth):
+    text = '{\n'
+    for key, value in dict_values.items():
+        if not isinstance(value, dict):
+            text += f"{' ' * (depth)}    {key}: {value}\n"
+        if isinstance(value, dict):
+            new_value = get_value(value, depth + 4)
+            text += f"{' ' * (depth)}    {key}: {new_value}\n"
+    text += f'{" " * (depth)}}}'
+    return text
+
+
+def line_forming(i, value, depth, sign):
+    if type(i[value]) == dict:
+        i[value] = get_value(i[value], depth + 4)
     return f'{" " * depth}{sign}{i["key"]}: {i[value]}\n'
 
 
-def stylish(diff: list[dict], depth=DEFAULT_DEPTH) -> str:
+def stylish(diff, depth=DEFAULT_DEPTH):
     text = '{\n'
     for i in diff:
-        if i['operation'] == 'none':
+        if i['operation'] == 'same':
             text += line_forming(i, 'value', depth, sign='    ')
         if i['operation'] == 'add':
             text += line_forming(i, 'new', depth, sign='  + ')
-        if i['operation'] == 'delete' or i['operation'] == 'update':
+        if i['operation'] == 'removed' or i['operation'] == 'changed':
             text += line_forming(i, 'old', depth, sign='  - ')
-        if i['operation'] == 'update':
+        if i['operation'] == 'changed':
             text += line_forming(i, 'new', depth, sign='  + ')
+        if i['operation'] == 'nested':
+            new_value = stylish(i['value'], depth + 4)
+            text += f'{" " * depth}    {i["key"]}: {new_value}\n'
+
     text += f'{" " * depth}}}'
     text = text.replace('True', 'true').replace(
         'False', 'false').replace('None', 'null')
     return text
-# Хотелось бы в 21-ой строчке кода вызвать 17-ую. Кроме, как через создание
-# переменной это возможно?
-# нужно лл функцию line_formating разделять на две? на проверяющую
-# и изменяющую значение строки, и на возвращающую текст?
