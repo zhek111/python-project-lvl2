@@ -6,7 +6,7 @@ def determine_value(i, value):
         i[value] = "[complex value]"
 
 
-def plain(diff, depth=None):
+def plain(diff: list[dict], depth: list = None) -> str:
     if depth is None:
         depth = DEFAULT_DEPTH
     text = str()

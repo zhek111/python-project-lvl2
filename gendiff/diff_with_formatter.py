@@ -1,14 +1,14 @@
 from gendiff.diff import get_diff
-from gendiff.get_parsed_data import get_parsed_data
+from gendiff.parsed_data import parse
 from gendiff.formaters.select_formatter import select_formatter
-from gendiff.get_data import get_data_from_file
+from gendiff.data import prepare_data
 
 
 def generate_diff(path_file1: str, path_file2: str,
                   formater: str = 'stylish') -> str:
-    data1, format1 = get_data_from_file(path_file1)
-    data2, format2 = get_data_from_file(path_file2)
-    parced_data1 = get_parsed_data(data1, format1)
-    parced_data2 = get_parsed_data(data2, format2)
+    data1, format1 = prepare_data(path_file1)
+    data2, format2 = prepare_data(path_file2)
+    parced_data1 = parse(data1, format1)
+    parced_data2 = parse(data2, format2)
     diff = get_diff(parced_data1, parced_data2)
     return select_formatter(formater)(diff)

@@ -10,15 +10,15 @@ def get_diff(parced_data1: dict, parced_data2: dict) -> list[dict]:
             diff.append(
                 {'key': i, 'operation': 'removed', 'old': parced_data1[i]})
         if i in parced_data1 and i in parced_data2:
-            if not isinstance(parced_data1[i], dict) or not isinstance(parced_data2[i], dict):
-                if parced_data1[i] == parced_data2[i]:
-                    diff.append({'key': i, 'operation': 'same',
-                                 'value': parced_data1[i]})
-                if parced_data1[i] != parced_data2[i]:
-                    diff.append({'key': i, 'operation': 'changed',
-                                 'old': parced_data1[i],
-                                 'new': parced_data2[i]})
-            if (type(parced_data1[i]) == type(parced_data2[i]) == dict):
-                value = get_diff(parced_data1[i], parced_data2[i])
-                diff.append({'key': i, 'operation': 'nested', 'value': value})
+            if isinstance(parced_data1[i], dict) and isinstance(
+                    parced_data2[i], dict):
+                child = get_diff(parced_data1[i], parced_data2[i])
+                diff.append({'key': i, 'operation': 'nested', 'value': child})
+            elif parced_data1[i] == parced_data2[i]:
+                diff.append({'key': i, 'operation': 'same',
+                             'value': parced_data1[i]})
+            elif parced_data1[i] != parced_data2[i]:
+                diff.append({'key': i, 'operation': 'changed',
+                             'old': parced_data1[i],
+                             'new': parced_data2[i]})
     return diff
