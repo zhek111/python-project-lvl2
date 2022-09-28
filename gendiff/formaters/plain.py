@@ -1,5 +1,6 @@
 from typing import Any
 
+
 def determine_value(dictionary: dict, value: Any) -> None:
     if isinstance(dictionary[value], dict):
         dictionary[value] = "[complex value]"
@@ -22,7 +23,7 @@ def build_plain_iter(diff: list[dict], depth: list = None) -> str:
         if dictionary['operation'] == 'add':
             determine_value(dictionary, 'new')
             list_str.append(f"Property '{property}' "
-                        f"was added with value: {dictionary['new']}")
+                            f"was added with value: {dictionary['new']}")
         if dictionary['operation'] == 'removed':
             list_str.append(f"Property '{property}' was removed")
         if dictionary['operation'] == 'nested':
@@ -33,7 +34,7 @@ def build_plain_iter(diff: list[dict], depth: list = None) -> str:
             determine_value(dictionary, 'new')
             determine_value(dictionary, 'old')
             list_str.append(f"Property '{property}' was updated. "
-                        f"From {dictionary['old']} to {dictionary['new']}")
+                            f"From {dictionary['old']} to {dictionary['new']}")
     text_str = '\n'.join(list_str)
     return text_str
 
