@@ -1,32 +1,45 @@
+from typing import Any
+
 DEFAULT_DEPTH = list()
 
 
-def determine_value(i, value):
-    if isinstance(i[value], dict):
-        i[value] = "[complex value]"
+def determine_value(dictionary: dict, value: Any) -> None:
+    if isinstance(dictionary[value], dict):
+        dictionary[value] = "[complex value]"
+    elif dictionary[value] is True:
+        dictionary[value] = "true"
+    elif dictionary[value] is False:
+        dictionary[value] = "false"
+    elif dictionary[value] is None:
+        dictionary[value] = "null"
+    elif not isinstance(dictionary[value], int):
+        dictionary[value] = f"'{dictionary[value]}'"
 
 
-def plain(diff: list[dict], depth: list = None) -> str:
+def build_plain_iter(diff: list[dict], depth: list = None) -> str:
     if depth is None:
         depth = DEFAULT_DEPTH
-    text = str()
-    for i in diff:
-        property = '.'.join(depth + [i['key']])
-        if i['operation'] == 'add':
-            determine_value(i, 'new')
-            text += f"Property '{property}' " \
-                    f"was added with value: '{i['new']}'\n"
-        if i['operation'] == 'removed':
-            text += f"Property '{property}' was removed\n"
-        if i['operation'] == 'nested':
-            new_value = plain(i['value'], depth + [i['key']])
-            text += f"{new_value}\n"
-        if i['operation'] == 'changed':
-            determine_value(i, 'new')
-            determine_value(i, 'old')
-            text += f"Property '{property}' was updated. " \
-                    f"From '{i['old']}' to '{i['new']}'\n"
-    text = text.replace("'True'", "true").replace("'False'", "false") \
-        .replace("'None'", "null").replace("  ", " '' ").replace(
-        "'0'", "0").replace("'[complex value]'", "[complex value]")
-    return text[:-1]
+    text = list()
+    for dictionary in diff:
+        property = '.'.join(depth + [dictionary['key']])
+        if dictionary['operation'] == 'add':
+            determine_value(dictionary, 'new')
+            text.append(f"Property '{property}' "
+                        f"was added with value: {dictionary['new']}")
+        if dictionary['operation'] == 'removed':
+            text.append(f"Property '{property}' was removed")
+        if dictionary['operation'] == 'nested':
+            new_value = build_plain_iter(dictionary['value'],
+                                         depth + [dictionary['key']])
+            text.append(f"{new_value}")
+        if dictionary['operation'] == 'changed':
+            determine_value(dictionary, 'new')
+            determine_value(dictionary, 'old')
+            text.append(f"Property '{property}' was updated. "
+                        f"From {dictionary['old']} to {dictionary['new']}")
+    text_str = '\n'.join(text)
+    return text_str
+
+
+def render_plain(diff: list[dict]) -> str:
+    return build_plain_iter(diff, depth=None)
