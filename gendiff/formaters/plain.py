@@ -1,7 +1,7 @@
 from typing import Any
 
 
-def to_str(value: Any) -> str:
+def to_str(value: Any):
     if isinstance(value, dict):
         return "[complex value]"
     elif value is True:
@@ -10,8 +10,9 @@ def to_str(value: Any) -> str:
         return "false"
     elif value is None:
         return "null"
-    elif not isinstance(value, int):
-        return f"'{value}'"
+    elif value == 0:
+        return 0
+    return f"'{value}'"
 
 
 def build_plain_iter(diff: dict, path: list = None) -> str:
