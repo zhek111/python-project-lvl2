@@ -1,14 +1,12 @@
 from os.path import splitext
 
+EXTENSIONS = ('yaml', 'yml', 'json')
+
 
 def prepare_data(path_file: str) -> tuple[str, str]:
-    extension = splitext(path_file)[1]
-    extensions = ('.yaml', '.yml', '.json')
-    if extension in extensions:
+    extension = splitext(path_file)[1][1:]
+    if extension in EXTENSIONS:
         with open(path_file) as f:
             data = f.read()
-            if extension == '.yaml' or extension == '.yml':
-                return data, extension
-            if extension == '.json':
-                return data, extension
+            return data, extension
     raise ValueError(f"Unrecognized extension: {extension}")

@@ -1,5 +1,5 @@
 from gendiff.diff_with_formatter import generate_diff
 
-__all__ = (  # noqa: WPS410
+__all__ = (
     'generate_diff',
 )

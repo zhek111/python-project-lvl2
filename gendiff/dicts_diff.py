@@ -1,4 +1,4 @@
-def get_diff(parced_data1: dict, parced_data2: dict) -> list[dict]:
+def build_diff(parced_data1: dict, parced_data2: dict) -> list[dict]:
     diff = list()
     sorted_keys = sorted(
         list(set(parced_data1.keys()) | set(parced_data2.keys()))
@@ -11,7 +11,7 @@ def get_diff(parced_data1: dict, parced_data2: dict) -> list[dict]:
                 {'key': i, 'operation': 'removed', 'old': parced_data1[i]})
         elif isinstance(parced_data1[i], dict) and isinstance(
                 parced_data2[i], dict):
-            child = get_diff(parced_data1[i], parced_data2[i])
+            child = build_diff(parced_data1[i], parced_data2[i])
             diff.append({'key': i, 'operation': 'nested', 'value': child})
         elif parced_data1[i] == parced_data2[i]:
             diff.append({'key': i, 'operation': 'same',
