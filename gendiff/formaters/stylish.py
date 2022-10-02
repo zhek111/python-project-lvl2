@@ -6,12 +6,12 @@ DEFAULT_INDENT = 4
 def to_str(value: Any, depth: int) -> str:
     if isinstance(value, dict):
         list_str = ['{']
-        for key, value in value.items():
-            if isinstance(value, dict):
-                new_value = to_str(value, depth + DEFAULT_INDENT)
+        for key, nested_value in value.items():
+            if isinstance(nested_value, dict):
+                new_value = to_str(nested_value, depth + DEFAULT_INDENT)
                 list_str.append(f"{' ' * depth}    {key}: {new_value}")
             else:
-                list_str.append(f"{' ' * depth}    {key}: {value}")
+                list_str.append(f"{' ' * depth}    {key}: {nested_value}")
         list_str.append(f'{" " * depth}}}')
         text_str = '\n'.join(list_str)
         return text_str
