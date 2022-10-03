@@ -30,18 +30,31 @@ def build_stylish_iter(diff: dict, depth=0) -> str:
     lines = ['{']
     for dictionary in diff:
         if dictionary['operation'] == 'same':
-            lines.append(
-                line_forming(dictionary, 'value', depth, sign='    '))
+            lines.append(line_forming(
+                dictionary, 'value',
+                depth, sign='    '
+            ))
+
         if dictionary['operation'] == 'add':
-            lines.append(
-                line_forming(dictionary, 'new', depth, sign='  + '))
+            lines.append(line_forming(
+                dictionary, 'new',
+                depth, sign='  + '
+            ))
+
         if dictionary['operation'] == 'removed' or dictionary[
                 'operation'] == 'changed':
-            lines.append(
-                line_forming(dictionary, 'old', depth, sign='  - '))
+            lines.append(line_forming(
+                dictionary, 'old',
+                depth, sign='  - '
+            ))
+
         if dictionary['operation'] == 'changed':
             lines.append(
-                line_forming(dictionary, 'new', depth, sign='  + '))
+                line_forming(
+                    dictionary, 'new',
+                    depth, sign='  + '
+                ))
+
         if dictionary['operation'] == 'nested':
             new_value = build_stylish_iter(dictionary['value'],
                                            depth + DEFAULT_INDENT)

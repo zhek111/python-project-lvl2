@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from gendiff.diff_with_formatter import generate_diff
-from gendiff.scripts.cli import parse_command
+from gendiff.cli import parse
 
 
 def main():
-    args = parse_command()
+    args = parse()
     print(
         generate_diff(args.first_file, args.second_file, formater=args.format))
 

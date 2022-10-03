@@ -1,69 +1,74 @@
 from gendiff import generate_diff
 import pytest
 
+from tests import get_path
+
 
 @pytest.mark.parametrize(
     "test_input1,test_input2, formater,  expected",
     [
         pytest.param(
-            'tests/fixtures/file1.json',
-            'tests/fixtures/file2.json',
+            'file1.json',
+            'file2.json',
             'stylish',
-            'tests/fixtures/correct_result.txt',
+            'correct_result.txt',
             id="flat_json_file"
         ),
         pytest.param(
-            'tests/fixtures/file1.yaml',
-            'tests/fixtures/file2.yaml',
+            'file1.yaml',
+            'file2.yaml',
             'stylish',
-            'tests/fixtures/correct_result.txt',
+            'correct_result.txt',
             id="flat_yaml_file"
         ),
         pytest.param(
-            'tests/fixtures/file1.yaml',
-            'tests/fixtures/file2.json',
+            'file1.yaml',
+            'file2.json',
             'stylish',
-            'tests/fixtures/correct_result.txt',
+            'correct_result.txt',
             id="flat_mix_file"
         ),
         pytest.param(
-            'tests/fixtures/empty_file.json',
-            'tests/fixtures/empty_file.json',
+            'empty_file.json',
+            'empty_file.json',
             'stylish',
-            'tests/fixtures/correct_result_empty.txt',
+            'correct_result_empty.txt',
             id="empty_file"
         ),
         pytest.param(
-            'tests/fixtures/file1_tree.json',
-            'tests/fixtures/file2_tree.json',
+            'file1_tree.json',
+            'file2_tree.json',
             'stylish',
-            'tests/fixtures/correct_result_tree.txt',
+            'correct_result_tree.txt',
             id="tree_json_file"
         ),
         pytest.param(
-            'tests/fixtures/file1_tree.yaml',
-            'tests/fixtures/file2_tree.yaml',
+            'file1_tree.yaml',
+            'file2_tree.yaml',
             'stylish',
-            'tests/fixtures/correct_result_tree.txt',
+            'correct_result_tree.txt',
             id="tree_yaml_file"
         ),
         pytest.param(
-            'tests/fixtures/file1_tree.yaml',
-            'tests/fixtures/file2_tree.yaml',
+            'file1_tree.yaml',
+            'file2_tree.yaml',
             'plain',
-            'tests/fixtures/correct_result_tree_plain.txt',
+            'correct_result_tree_plain.txt',
             id="tree_plain"
         ),
         pytest.param(
-            'tests/fixtures/file1_tree.json',
-            'tests/fixtures/file2_tree.json',
+            'file1_tree.json',
+            'file2_tree.json',
             'json',
-            'tests/fixtures/correct_result_tree_json.txt',
+            'correct_result_tree_json.txt',
             id="tree_json"
         ),
     ],
 )
 def test_generare_diff(test_input1, test_input2, formater, expected):
-    with open(expected, 'r') as file:
+    expected_path = get_path(expected)
+    with open(expected_path, 'r') as file:
         result_data = file.read()
-    assert generate_diff(test_input1, test_input2, formater) == result_data
+        test_path1 = get_path(test_input1)
+        test_path2 = get_path(test_input2)
+        assert generate_diff(test_path1, test_path2, formater) == result_data
