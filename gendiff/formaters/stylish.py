@@ -5,24 +5,20 @@ DEFAULT_INDENT = 4
 
 def to_str(value: Any, depth: int) -> str:
     if isinstance(value, dict):
-        list_str = ['{']
+        lines = ['{']
         for key, nested_value in value.items():
             if isinstance(nested_value, dict):
                 new_value = to_str(nested_value, depth + DEFAULT_INDENT)
-                list_str.append(f"{' ' * depth}    {key}: {new_value}")
+                lines.append(f"{' ' * depth}    {key}: {new_value}")
             else:
-                list_str.append(f"{' ' * depth}    {key}: {nested_value}")
-        list_str.append(f'{" " * depth}}}')
-        text_str = '\n'.join(list_str)
-        return text_str
-    if value is True:
-        return 'true'
-    if value is False:
-        return 'false'
+                lines.append(f"{' ' * depth}    {key}: {nested_value}")
+        lines.append(f'{" " * depth}}}')
+        return '\n'.join(lines)
+    if isinstance(value, bool):
+        return str(value).lower()
     if value is None:
         return 'null'
-    else:
-        return value
+    return value
 
 
 def line_forming(dictionary: dict, key: Any, depth: int, sign: str) -> str:

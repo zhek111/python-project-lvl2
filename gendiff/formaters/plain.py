@@ -4,14 +4,12 @@ from typing import Any
 def to_str(value: Any) -> [str | int]:
     if isinstance(value, dict):
         return "[complex value]"
-    elif value is True:
-        return "true"
-    elif value is False:
-        return "false"
-    elif value is None:
+    if isinstance(value, bool):
+        return str(value).lower()
+    if value is None:
         return "null"
-    elif isinstance(value, int):
-        return value
+    # if isinstance(value, int):
+    #     return value
     return f"'{value}'"
 
 
